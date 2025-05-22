@@ -1,0 +1,37 @@
+body {
+    text-align: center;
+    background-color: rgb(180, 180, 211);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.image {
+    width: 100px;
+    border-radius: 40px;
+    margin: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.image:hover {
+    transform: scale(1.1);
+}
+
+.game-result {
+    font-family:'Courier New', Courier, monospace;
+}
+
+button {
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: large;
+    color: red;
+    transition: transform 0.2s ease;
+}
+
+button:hover {
+    border: none;
+    transform: scale(1.03);
+    color: white;
+    background-color: red;
+}

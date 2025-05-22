@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Rock Paper Scissors Game</title>
+    <link rel="stylesheet" href="rock-paper-scissors.css">
+</head>
+<body>
+    <h1>Rock Paper Scissors Game</h1>
+    <img src="images/rock.png" class = "image" alt="Rock Image" onclick="playGame('rock')">
+    <img src="images/paper.png" class = "image" altalt="Paper Image" onclick="playGame('paper')">
+    <img src="images/scissors.png" class = "image" altalt="Scissors Image" onclick="playGame('scissors')">
+
+    <h3 class = "game-result" id = "user-choice"></h3>
+    <h3 class = "game-result" id = "computer-choice"></h3>
+    <h3 class = "game-result" id = "result-heading"></h3>
+    <h3 class = "game-result" id = "score-heading"></h3>
+
+    <button onclick="resetScore()">Reset</button>
+
+    <script>
+        let savedScore = localStorage.getItem('score');
+        let score = savedScore ? JSON.parse(savedScore) : {
+            win : 0, lost : 0, tie : 0,
+        };
+        score.displayScore = function() {
+            return `Score: Matches won: ${score.win} lost: ${score.lost} tied: ${score.tie}`;
+        }
+        showResult();
+        function resetScore() {
+            localStorage.clear();
+            score = {win : 0, lost : 0, tie : 0,
+            displayScore() {return `Score: Matches won: ${score.win} lost: ${score.lost} tied: ${score.tie}`;}
+            };
+            document.querySelector("#score-heading").innerText = score.displayScore();
+            document.querySelector("#user-choice").innerText = '';
+            document.querySelector("#computer-choice").innerText = '';
+            document.querySelector("#result-heading").innerText = '';
+        };
+        function playGame(userChoice) {
+            let choices = ['rock', 'paper', 'scissors'];
+            let computerChoice = choices[Math.floor(Math.random() * 3)];
+            let result = '';
+
+            if (userChoice === computerChoice) {
+                score.tie++;
+                result = 'tie';
+            } else if (
+                (userChoice === 'rock' && computerChoice === 'scissors') ||
+                (userChoice === 'paper' && computerChoice === 'rock') ||
+                (userChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                score.win++;
+                result = 'win';
+            } else {
+                score.lost++;
+                result = 'lose';
+            }
+            localStorage.setItem('score', JSON.stringify(score));
+            showResult(userChoice, computerChoice, result);
+        }
+
+        function showResult(userChoice, computerChoice, result) {
+            let user = document.querySelector("#user-choice");
+            if (userChoice) user.innerText = `You chose ${userChoice}.`;
+            let computer = document.querySelector("#computer-choice");
+            if (computerChoice) computer.innerText = `Computer chose ${computerChoice}.`;
+            let resultHeading = document.querySelector("#result-heading");
+            if (userChoice && computerChoice) {
+                if (result === 'tie') {
+                    resultHeading.innerText = `The match is tied.`;
+                }
+                else if (result === 'win') {
+                    resultHeading.innerText = "You won the match.";
+                }
+                else resultHeading.innerText = "Computer won the match.";
+            }
+            let scoreHeading = document.querySelector("#score-heading");
+            scoreHeading.innerText = score.displayScore();
+        }
+    </script>
+</body>
+</html>
