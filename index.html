@@ -7,8 +7,8 @@
 <body>
     <h1>Rock Paper Scissors Game</h1>
     <img src="images/rock.png" class = "image" alt="Rock Image" onclick="playGame('rock')">
-    <img src="images/paper.png" class = "image" altalt="Paper Image" onclick="playGame('paper')">
-    <img src="images/scissors.png" class = "image" altalt="Scissors Image" onclick="playGame('scissors')">
+    <img src="images/paper.png" class = "image" alt="Paper Image" onclick="playGame('paper')">
+    <img src="images/scissors.png" class = "image" alt="Scissors Image" onclick="playGame('scissors')">
 
     <h3 class = "game-result" id = "user-choice"></h3>
     <h3 class = "game-result" id = "computer-choice"></h3>
@@ -26,7 +26,15 @@
             return `Score: Matches won: ${score.win} lost: ${score.lost} tied: ${score.tie}`;
         }
         showResult();
+
+        function playClickSound() {
+            const sound = new Audio('sounds/click.mp3');
+            sound.volume = 0.4;
+            sound.play();
+        }
+
         function resetScore() {
+            playClickSound();
             localStorage.clear();
             score = {win : 0, lost : 0, tie : 0,
             displayScore() {return `Score: Matches won: ${score.win} lost: ${score.lost} tied: ${score.tie}`;}
@@ -36,11 +44,12 @@
             document.querySelector("#computer-choice").innerText = '';
             document.querySelector("#result-heading").innerText = '';
         };
+
         function playGame(userChoice) {
+            playClickSound();
             let choices = ['rock', 'paper', 'scissors'];
             let computerChoice = choices[Math.floor(Math.random() * 3)];
             let result = '';
-
             if (userChoice === computerChoice) {
                 score.tie++;
                 result = 'tie';
